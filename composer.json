@@ -1,0 +1,13 @@
+{
+    "name": "jmccrei/SiteBundle",
+    "type": "symfony-bundle",
+    "description": "Base options for a Symfony site",
+    "minimum-stability": "stable",
+    "authors": [
+        {
+            "name": "JLCoreSystems",
+            "email": "admin@jlcoresystems.com"
+        }
+    ]
+}
+
