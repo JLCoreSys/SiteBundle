@@ -1,0 +1,8 @@
+{% if wrapper_class is not defined %}{%  set wrapper_class = 'row' %}{% endif %}
+{% if div_class is not defined %}{%  set div_class = 'col-md-1 col-md-offset-11' %}{% endif %}
+{% if pull_right is not defined %}{%  set pull_right = false %}{% endif %}
+{% if text is not defined %}{%  set text = 'Save' %}{% endif %}
+{% if icon is not defined %}{%  set icon = 'check' %}{% endif %}
+<div class="{{ wrapper_class }}">
+    <a class="btn {{ pull_right ? ' offset6' : '' }} btn-primary"><i class="icon-{{ icon }}"></i> {{ text }}</a>
+</div>

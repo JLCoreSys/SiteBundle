@@ -1,0 +1,47 @@
+<div class="isotope-item element thumbnail" id="site-image-{{ image.id }}">
+    <div class="item">
+        <a class="fancybox" rel="site-images" data-rel="fancybox-button" title="{{ image.title }}" href="{{ app.request.getSchemeAndHttpHost ~ asset( image.getUrl( 'site', 'original', true ) ) }}">
+            <div class="zoom">
+                <img src="{{ app.request.getSchemeAndHttpHost ~ asset( image.getUrl( 'site', 'thumb', true ) ) }}" alt="Photo" width="{{ image.getSizeWidth('thumb') }}" height="{{ image.getSizeHeight('thumb') }}">
+                <div class="zoom-icon"></div>
+            </div>
+        </a>
+        <div class="details">
+            <a href="{{ path( 'media_image_src', {'slug': image.id } ) }}.{{ image.ext }}" target="_blank" class="icon"><i class="icon-link"></i></a>
+            <a  href="#image-modal-info-{{ image.id }}" data-toggle="modal" class="icon small-margin-left small-margin-right"><i class="icon-info-sign"></i></a>
+            <a href="javascript:void(0);" class="icon remove-site-image"><i class="icon-remove red"></i></a>
+        </div>
+    </div>
+    <div id="image-modal-info-{{ image.id }}" class="modal fade" data-modal-moved="0">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Image Details</h4>
+                </div>
+                <div class="modal-body">
+                    <h2>Sizes: </h2>
+                    <code>tiny</code>
+                    <code>small</code>
+                    <code>medium</code>
+                    <code>large</code>
+                    <code>xlarge</code>
+                    <code>xxlarge</code>
+                    <code>xxxlarge</code>
+                    <code>original</code>
+                    <h2>External Links:</h2>
+                    <code>{{ str_replace( 'small', '{SIZE}', str_replace( '/app_dev.php', '', path( 'media_image_small', {'slug': image.id } ) ) ) }}.{{ image.ext }}</code>
+                    <h2>Internal Links:</h2>
+                    <small>For Original: Omit {SIZE}</small><br>
+                    <code>{{ str_replace( 'small', '{SIZE}', asset( image.getUrl( 'site', 'small', true ) ) ) }}</code>
+                    <h2>Twig References</h2>
+                    <code>{{ '{{ ' }}fullImage({{ image.id }},'{SIZE}',true,{}){{ ' }}' }}</code>
+                    <br><br>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

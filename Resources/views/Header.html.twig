@@ -1,0 +1,56 @@
+{% block doctype_html %}
+<!DOCTYPE html>
+<html lang="en">
+{% endblock doctype_html %}
+<head>
+    <meta charset="{% block meta_charset %}utf-8{% endblock meta_charset %}">
+    <meta name="viewport" content="width=device-width, initial-scale={% block head_meta_viewport_initial_scale %}1.0{% endblock head_meta_viewport_initial_scale %}, minimum-scale={% block head_meta_viewport_minimum_scale %}1.0{% endblock head_meta_viewport_minimum_scale %}, maximum-scale={% block head_meta_viewport_maximum_scale %}1.0{% endblock head_meta_viewport_maximum_scale %}, user-scalable=0"/>
+    <title>{% block head_title %}123{% endblock head_title %}</title>
+    <meta name="keywords" content="{{ siteSetting('siteKeywords') }}">
+    <meta name="description" content="{{ siteSetting('siteDescription') }}">
+    <!-- Bootstrap -->
+    <link href="{{ asset( 'bundles/coresysadmin/bootstrap/css/bootstrap.css' ) }}" rel="stylesheet" type="text/css" />
+
+    <!-- jQuery UI -->
+    <!--<link href="{{ asset( 'bundles/coresysadmin/plugins/jquery-ui/jquery-ui-1.10.2.custom.css' ) }}" rel="stylesheet" type="text/css" />-->
+    <!--[if lt IE 9]>
+    <link rel="stylesheet" type="text/css" href="{{ asset( 'bundles/coresysadmin/plugins/jquery-ui/jquery.ui.1.10.2.ie.css' ) }}"/>
+    <![endif]-->
+
+    <!-- Theme -->
+    <link href="{{ asset( 'bundles/coresysadmin/css/main.css' ) }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ asset( 'bundles/coresysadmin/css/responsive.css' ) }}" rel="stylesheet" type="text/css"/>
+
+    <link rel="stylesheet" href="{{ asset( 'bundles/coresysadmin/css/fontawesome/font-awesome.min.css' ) }}">
+    <!--[if IE 7]>
+    <link rel="stylesheet" href="{{ asset( 'bundles/coresysadmin/css/fontawesome/font-awesome-ie7.min.css' ) }}">
+    <![endif]-->
+
+    <!--[if IE 8]>
+    <link href="{{ asset( 'bundles/coresysadmin/css/ie8.css' ) }}" rel="stylesheet" type="text/css" />
+    <![endif]-->
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
+
+    {% block head_css %}
+    {% endblock head_css %}
+
+    <script type="text/javascript" src="{{ asset( 'bundles/coresysadmin/js/libs/jquery-1.10.2.min.js' ) }}"></script>
+    <script type="text/javascript" src="{{ asset( 'bundles/coresysadmin/plugins/jquery-ui/jquery-ui-1.10.2.custom.min.js' ) }}"></script>
+    <script type="text/javascript" src="{{ asset( 'js/bootstrap.js' ) }}"></script>
+    {#{% include 'CoreSysAdminBundle:Admin:admin_javascripts.html.twig' %}#}
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+    <script src="{{ asset( 'bundles/coresysadmin/js/libs/html5shiv.js' ) }}"></script>
+    <![endif]-->
+
+    {% block head_js %}
+    {% endblock head_js %}
+
+    {% block head_extra %}
+    {% endblock head_extra %}
+</head>
+<body {% block body_class %}{% endblock body_class %}>
+{% block header_content %}
+{% endblock header_content %}
+

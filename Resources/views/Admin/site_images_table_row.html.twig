@@ -1,0 +1,31 @@
+<tr data-row-id="{{ image.id }}" data-row-name="{{ image.title }}">
+    <td><input data-row-id="{{ image.id }}" data-row-name="{{ image.title }}" type="checkbox" class="uniform" data-row-check></td>
+    <td>
+        <a class="fancybox" rel="site-images" data-rel="fancybox-button" title="{{ image.title }}" href="{{ app.request.getSchemeAndHttpHost ~ asset( image.getUrl( 'site', 'original', true ) ) }}">
+            <div class="zoom">
+                <img src="{{ app.request.getSchemeAndHttpHost ~ asset( image.getUrl( 'site', 'tiny', true ) ) }}" alt="Photo" width="{{ image.getSizeWidth('tiny') }}" height="{{ image.getSizeHeight('tiny') }}">
+                <div class="zoom-icon"></div>
+            </div>
+        </a>
+    </td>
+    <td>
+        {{ image.title ? image.title : 'N/A' }}
+    </td>
+    <td>
+        {{ image.width }}px
+    </td>
+    <td>
+        {{ image.height }}px
+    </td>
+    <td>
+        <div class="btn-group">
+            <button type="button" class="access-actions btn btn-default dropdown-toggle" data-toggle="dropdown">
+                Actions <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" access="menu">
+                <li><a href="javascript:void(0)"><i class="icon-edit" title="Edit Image"></i> Edit</a></li>
+                <li><a href="javascript:removeImage(null,null,{{ image.id }},'{{ image.title }}');"><i class="icon-remove red" title="Remove Image"></i> Remove</a></li>
+            </ul>
+        </div>
+    </td>
+</tr>

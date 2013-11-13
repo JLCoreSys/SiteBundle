@@ -1,0 +1,192 @@
+{% extends 'CoreSysAdminBundle:Admin:admin_base.html.twig' %}
+
+{% block head_title %}Site Settings{% endblock head_title %}
+
+{% block head_js %}
+    {{ parent() }}
+    <script type="application/javascript" src="{{ asset( 'bundles/coresyssite/plugins/tinymce/tinymce.min.js') }}"></script>
+    <script type="application/javascript" src="{{ asset( 'bundles/coresysadmin/js/jquery.equalheights.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset( 'bundles/coresysadmin/js/jquery.form.min.js') }}"></script>
+{% endblock head_js %}
+
+{% block head_css %}
+    {{ parent() }}
+    <link type="text/css" rel="stylesheet" href="{{ asset( 'bundles/coresyssite/plugins/uploadifive/uploadifive.css') }}"/>
+    <link type="text/css" rel="stylesheet" href="{{ asset( 'bundles/coresysadmin/plugins/fancybox/source/jquery.fancybox.css') }}"/>
+    <link type="text/css" rel="stylesheet" href="{{ asset( 'bundles/coresysadmin/plugins/fancybox/source/helpers/jquery.fancybox-buttons.css') }}"/>
+    <link type="text/css" rel="stylesheet" href="{{ asset( 'bundles/coresysadmin/plugins/fancybox/source/helpers/jquery.fancybox-thumbs.css') }}"/>
+{% endblock head_css %}
+
+{% block content_page_title %}
+    <h3>Site Settings</h3>
+{% endblock content_page_title %}
+
+{% block content_breadcrumb_items %}
+    {{ parent() }}
+    <li class="current">
+        <a href="{{ path( 'admin_site_settings' ) }}" title=""><i class="icon-cogs"></i> Site Settings</a>
+    </li>
+{% endblock content_breadcrumb_items %}
+
+{% block content_page_stats_items %}
+    {{ parent() }}
+{% endblock content_page_stats_items %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="tabbable tabbable-custom">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#gen" data-toggle="tab"><i class="icon-cogs"></i> General</a>
+                    </li>
+                    <li><a href="#tos" data-toggle="tab"><i class="icon-thumbs-up-alt"></i> Terms of Service</a>
+                    </li>
+                    <li><a href="#priv" data-toggle="tab"><i class="icon-thumbs-up"></i> Privacy</a></li>
+                    <li><a href="#con" data-toggle="tab"><i class="icon-envelope"></i> Contact</a></li>
+                    <li>
+                        <a href="#lag" data-toggle="tab"><i class="glyphicon glyphicon-camera"></i> Logos &amp; Graphics</a>
+                    </li>
+                    <li class="pull-right">{% include 'CoreSysSiteBundle:Common:save_div.html.twig' with {'wrapper_class':'form-group save-settings-btn','div_class':""} %}</li>
+                </ul>
+
+                <form class="form-vertical row-border" action="" method="post" id="settings-form" {{ form_enctype( form ) }} style="margin-top:-16px">
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="gen">
+                            <div class="well">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        {{ form_row( form.siteName ) }}
+                                        {{ form_row( form.siteSlogan ) }}
+                                    </div>
+                                    <div class="col-md-6">
+                                        {{ form_row( form.siteTitle ) }}
+                                        {{ form_row( form.siteKeywords ) }}
+                                    </div>
+                                </div>
+                                {{ form_row( form.siteDescription ) }}
+                                {% include 'CoreSysSiteBundle:Common:save_div.html.twig' with {'wrapper_class':'form-group row save-settings-btn'} %}
+                            </div>
+                        </div>
+                        <div class="tab-pane widget" id="tos">
+                            <div class="well">
+                                {{ form_row( form.termsOfUseTitle ) }}
+                                {{ form_row( form.termsOfUse ) }}
+                                {% include 'CoreSysSiteBundle:Common:save_div.html.twig' with {'wrapper_class':'form-group row save-settings-btn'} %}
+                            </div>
+                        </div>
+                        <div class="tab-pane widget" id="priv">
+                            <div class="well">
+                                {{ form_row( form.privacyPolicyTitle ) }}
+                                {{ form_row( form.privacyPolicy ) }}
+                                {% include 'CoreSysSiteBundle:Common:save_div.html.twig' with {'wrapper_class':'form-group row save-settings-btn'} %}
+                            </div>
+                        </div>
+                        <div class="tab-pane widget" id="con">
+                            <div class="well">
+                                {{ form_row( form.siteAdminEmail ) }}
+                                {{ form_row( form.siteWebmasterEmail ) }}
+                                {{ form_row( form.siteSupportEmail ) }}
+                                {% include 'CoreSysSiteBundle:Common:save_div.html.twig' with {'wrapper_class':'form-group row save-settings-btn'} %}
+                            </div>
+                        </div>
+                        <div class="tab-pane widget" id="lag">
+                            <div class="panel panel-default">
+                                <div class="panel-heading"><h2 class="text-center text-primary">Site Logos</h2></div>
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-md-6 text-center">
+                                            {{ form_row( form.logo_file_one ) }}
+                                            <div id="settings-logo" class="image-wrapper equal-height">
+                                                {% if settings.logo %}
+                                                    {{ siteLogo( 'img-responsive main-logo', {'data-logo-num':1} ) }}
+                                                    {#<img class="img-responsive main-logo" src="{{ app.request.getSchemeAndHttpHost ~ asset( settings.logo.getUrl( 'site', 'original', true ) ) }}" data-logo-num="1" />#}
+                                                    <div class="image-tools"><span class="btn btn-xs btn-danger pull-right"  onclick="removeLogo('main');" title="Remove"><i class="icon-remove"></i></span><code class="pull-left">{{ '{{ ' }}siteLogo( 'classes', {'attr':'val'} ){{ ' }}' }}</code></div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 text-center">
+                                            {{ form_row( form.logo_file_two ) }}
+                                            <div id="settings-alt-logo" class="image-wrapper equal-height">
+                                                {% if settings.altLogo %}
+                                                    {{ siteAltLogo( 'img-responsive main-logo', {'data-logo-num':1} ) }}
+                                                    {#<img class="img-responsive alt-logo" src="{{ app.request.getSchemeAndHttpHost ~ asset( settings.altLogo.getUrl( 'site', 'original', true ) ) }}" data-logo-num="2" />#}
+                                                    <div class="image-tools"><span class="btn btn-xs btn-danger pull-right"  onclick="removeLogo('alt');" title="Remove"><i class="icon-remove"></i></span><code class="pull-left">{{ '{{ ' }}siteAltLogo( 'classes', {'attr':'val'} ){{ ' }}' }}</code></div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading"><h2 class="text-center text-primary">Site Images</h2></div>
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-md-6"></div>
+                                        <div class="col-md-6 text-center">
+                                            <a data-toggle="modal" href="#upload-site-images" class="pull-right btn btn-primary small-margin-bottom small-margin-left">Upload New Images</a>
+                                            <a href="javascript:removeSelectedImages();" class="pull-right btn btn-danger require-checked small-margin-left small-margin-right" style="display:none">Remove Selected</a>
+                                        </div>
+                                    </div>
+                                    {% include 'CoreSysMediaBundle:Images:images_table.html.twig' with {'images':settings.images, 'table_id': 'site-images-table', 'show_width':false, 'show_height':false,'show_size':true, 'show_rating':false, 'show_comments': false} %}
+                                    {#{% include 'CoreSysSiteBundle:Admin:site_images_table.html.twig' with {'images':settings.images} %}#}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {{ form_row( form._token ) }}
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="upload-site-images">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Add New Site Images</h4>
+                </div>
+                <div class="modal-body text-center">
+                    <h3>Click the button below to upload new images</h3>
+                    <div class="text-center">
+                        <input type="file" id="site-images-upload" name="site_images" rel="uploadifive_multiple" data-btn-text="Select Images" data-btn-cls="btn btn-primary" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="edit-image-modal" tabindex="-1" role="dialog" aria-labelledby="editImageModal" aria-hidden="true"></div>
+    <div class="modal fade" id="view-image-modal" tabindex="-1" role="dialog" aria-labelledby="viewImageModal" aria-hidden="true"></div>
+{% endblock content %}
+
+{% block body_js %}
+    {{ parent() }}
+    {{ form_javascript( form ) }}
+    <script type="application/javascript" src="{{ asset( 'bundles/coresysadmin/plugins/fancybox/source/jquery.fancybox.js') }}"></script>
+    <script type="application/javascript" src="{{ asset( 'bundles/coresysadmin/plugins/fancybox/source/helpers/jquery.fancybox-buttons.js') }}"></script>
+    <script type="application/javascript" src="{{ asset( 'bundles/coresysadmin/plugins/fancybox/source/helpers/jquery.fancybox-thumbs.js') }}"></script>
+    <script type="application/javascript" src="{{ asset( 'bundles/coresysadmin/plugins/fancybox/source/helpers/jquery.fancybox-media.js') }}"></script>
+    <script type="application/javascript" src="{{ asset( 'bundles/coresyssite/plugins/uploadifive/jquery.uploadifive.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset( 'bundles/coresysadmin/plugins/fileinput/fileinput.js' ) }}"></script>
+    <script type="text/javascript" src="{{ asset( 'bundles/coresysadmin/js/AdminTable.js' ) }}"></script>
+    <script type="text/javascript" src="{{ asset( 'bundles/coresyssite/js/AdminUploadifive.js' ) }}"></script>
+    <script>
+        var uploadifive_upload_image_url = '{{ path( 'media_upload_image' ) }}';
+        var uploadifive_timestamp = '{{ timestamp() }}';
+        var uploadifive_token = '{{ md5( secret_key ~ timestamp() ) }}';
+        var uploadifive_extra_data = {'type':'site'};
+        var ajax_add_logo_url = '{{ path( 'admin_ajax_site_add_logo' ) }}';
+        var ajax_remove_logo_url = '{{ path( 'admin_ajax_site_remove_logo' ) }}';
+        var ajax_add_site_image = '{{ path( 'admin_ajax_site_add_image' ) }}';
+        var ajax_remove_site_image = '{{ path( 'admin_ajax_site_remove_image' ) }}';
+        var ajax_remove_site_images = '{{ path( 'admin_ajax_site_remove_images' ) }}';
+        {% set timestamp = timestamp() %}
+        var timestamp = '{{ timestamp }}';
+        var token = '{{ md5( secret_key ~ timestamp ) }}';
+        var ajax_edit_image_url = '{{ path( 'admin_ajax_media_modal_image_edit' ) }}';
+        var ajax_view_image_url = '{{ path( 'admin_ajax_media_modal_image_info' ) }}';
+    </script>
+    <script type="text/javascript" src="{{ asset( 'bundles/coresyssite/js/settings.js' ) }}"></script>
+{% endblock body_js %}
